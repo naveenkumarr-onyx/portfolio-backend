@@ -1,0 +1,22 @@
+{
+  "name": "port-backend",
+  "version": "1.0.0",
+  "description": "using nodejs to create dynamic portfolio",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "author": "Naveenkumar",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "nodemon": "^3.1.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.2"
+  }
+}
