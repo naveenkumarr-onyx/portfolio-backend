@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 connectDB();
 const PORT = process.env.PORT || 3000;
-app.get("/api/portfolio", (req, res) => {
+app.get("/", (req, res) => {
   res.send("Hello World");
 });
 app.use("/api/portfolio", router);

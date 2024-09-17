@@ -3,7 +3,7 @@ import Intro from "../models/portfolio.js";
 
 const router = express.Router();
 
-router.get("/get-portfolio-data", async (req, res) => {
+router.get("/get-data", async (req, res) => {
   try {
     const intros = await Intro.find();
     res.status(200).send({

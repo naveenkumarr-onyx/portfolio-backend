@@ -1,4 +1,3 @@
-// db.js
 import mongoose from "mongoose";
 
 const dbUrl = process.env.MONGODB_URL;
