@@ -54,6 +54,34 @@ router.post("/add-experience", async (req, res) => {
   }
 });
 
-router.put();
+router.put("/update-experience/:id", async (req, res) => {
+  try {
+    const updateExperience = await Experience.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: req.body,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    if (!updateExperience) {
+      return res
+        .status(404)
+        .json({ message: "Experience not found", success: false });
+    }
+    res.status(200).json({
+      data: updateExperience,
+      success: true,
+      message: "experience updated successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+      success: false,
+    });
+  }
+});
 
 export default router;
