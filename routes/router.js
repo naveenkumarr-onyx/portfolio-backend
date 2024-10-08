@@ -11,6 +11,7 @@ router.get("/get-data", async (req, res) => {
     res.status(200).send({
       intro: intros[0],
       experience: experience,
+      projects: projects,
     });
   } catch (error) {
     res.status(500).json({
@@ -86,8 +87,7 @@ router.put("/update-experience/:id", async (req, res) => {
   }
 });
 
-router.post("/update-projects", async (req, res) => {
-  // Check if req.body.technologies is a string and split it into an array
+router.post("/add-project", async (req, res) => {
   const technologiesArray = Array.isArray(req.body.technologies)
     ? req.body.technologies
     : req.body.technologies.split(",").map((tech) => tech.trim());
@@ -105,7 +105,32 @@ router.post("/update-projects", async (req, res) => {
     res.status(201).json({
       data: pro,
       success: true,
-      message: "Projects updated successfully",
+      message: "Projects added successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+});
+
+router.post("/add-bulk-projects", async (req, res) => {
+  try {
+    const projects = req.body.projects.map((proj) => ({
+      title: proj.title,
+      technologies: Array.isArray(proj.technologies)
+        ? proj.technologies
+        : proj.technologies.split(",").map((tech) => tech.trim()), // Ensure technologies are stored as an array
+      project_image: proj.project_image,
+      github_link: proj.github_link,
+      live_link: proj.live_link,
+    }));
+
+    const savedProjects = await Projects.insertMany(projects);
+    res.status(201).json({
+      data: savedProjects,
+      success: true,
+      message: "Projects added successfully",
     });
   } catch (error) {
     res.status(500).json({
