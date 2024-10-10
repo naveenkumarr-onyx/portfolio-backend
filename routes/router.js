@@ -139,4 +139,35 @@ router.post("/add-bulk-projects", async (req, res) => {
   }
 });
 
+router.put("/update-projects/:id", async (req, res) => {
+  try {
+    const updateProject = await Projects.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: req.body,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    if (!updateProject) {
+      return res.status(404).json({
+        success: false,
+        message: "Project not found",
+      });
+    }
+    res.status(200).json({
+      data: updateProject, // Corrected this line
+      success: true,
+      message: "Project updated successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+      success: false,
+    });
+  }
+});
+
 export default router;
