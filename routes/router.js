@@ -3,6 +3,7 @@ import { Intro, Experience, Projects } from "../models/portfolio.js";
 
 const router = express.Router();
 
+// Get Data Method
 router.get("/get-data", async (req, res) => {
   try {
     const intros = await Intro.find();
@@ -20,6 +21,7 @@ router.get("/get-data", async (req, res) => {
   }
 });
 
+// Intro METHOD
 router.post("/add-intro", async (req, res) => {
   const intro = new Intro({
     name: req.body.name,
@@ -33,6 +35,7 @@ router.post("/add-intro", async (req, res) => {
   }
 });
 
+// Experience METHOD
 router.post("/add-experience", async (req, res) => {
   const experience = new Experience({
     company: req.body.company,
