@@ -87,6 +87,7 @@ router.put("/update-experience/:id", async (req, res) => {
   }
 });
 
+// Project METHOD
 router.post("/add-project", async (req, res) => {
   const technologiesArray = Array.isArray(req.body.technologies)
     ? req.body.technologies
@@ -158,9 +159,31 @@ router.put("/update-projects/:id", async (req, res) => {
       });
     }
     res.status(200).json({
-      data: updateProject, // Corrected this line
+      data: updateProject,
       success: true,
       message: "Project updated successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+      success: false,
+    });
+  }
+});
+
+router.delete("/delete-projects/:id", async (req, res) => {
+  try {
+    const deleteProject = await Projects.findByIdAndDelete(req.params.id, {
+      runValidators: true,
+    });
+    if (!deleteProject) {
+      return res.status(404).json({
+        success: false,
+        message: "Project not found",
+      });
+    }
+    res.status(200).json({
+      message: "project delete Sucessfully",
     });
   } catch (error) {
     res.status(500).json({
