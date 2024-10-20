@@ -63,8 +63,16 @@ const projectsSchema = new mongoose.Schema({
   },
 });
 
-const Intro = mongoose.model("Intro", introSchema);
-const Experience = mongoose.model("Experience", experienceSchema);
-const Projects = mongoose.model("Projects", projectsSchema);
+const skillSchema = new mongoose.Schema({
+  iconName: {
+    type: String,
+    required: true,
+  },
+});
 
-export { Intro, Experience, Projects };
+const intro = mongoose.model("intro", introSchema);
+const experience = mongoose.model("experience", experienceSchema);
+const projects = mongoose.model("projects", projectsSchema);
+const skill = mongoose.model("skill", skillSchema);
+
+export { intro, experience, projects, skill };

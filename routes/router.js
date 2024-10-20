@@ -1,18 +1,20 @@
 import express from "express";
-import { Intro, Experience, Projects } from "../models/portfolio.js";
+import { intro, experience, projects, skill } from "../models/portfolio.js";
 
 const router = express.Router();
 
-// Get Data Method
+// get-data method
 router.get("/get-data", async (req, res) => {
   try {
-    const intros = await Intro.find();
-    const experience = await Experience.find();
-    const projects = await Projects.find();
+    const intros = await intro.find();
+    const experience = await experience.find();
+    const projects = await projects.find();
+    const skill = await skill.find();
     res.status(200).send({
       intro: intros[0],
       experience: experience,
       projects: projects,
+      skill: skill,
     });
   } catch (error) {
     res.status(500).json({
@@ -21,9 +23,9 @@ router.get("/get-data", async (req, res) => {
   }
 });
 
-// Intro METHOD
+// intro method
 router.post("/add-intro", async (req, res) => {
-  const intro = new Intro({
+  const intro = new intro({
     name: req.body.name,
     role: req.body.role,
   });
@@ -35,9 +37,9 @@ router.post("/add-intro", async (req, res) => {
   }
 });
 
-// Experience METHOD
+// experience method
 router.post("/add-experience", async (req, res) => {
-  const experience = new Experience({
+  const experience = new experience({
     company: req.body.company,
     location: req.body.location,
     position: req.body.position,
@@ -62,7 +64,7 @@ router.post("/add-experience", async (req, res) => {
 
 router.put("/update-experience/:id", async (req, res) => {
   try {
-    const updateExperience = await Experience.findByIdAndUpdate(
+    const updateExperience = await experience.findByIdAndUpdate(
       req.params.id,
       {
         $set: req.body,
@@ -90,13 +92,13 @@ router.put("/update-experience/:id", async (req, res) => {
   }
 });
 
-// Project METHOD
+// project method
 router.post("/add-project", async (req, res) => {
   const technologiesArray = Array.isArray(req.body.technologies)
     ? req.body.technologies
     : req.body.technologies.split(",").map((tech) => tech.trim());
 
-  const pro = new Projects({
+  const pro = new projects({
     title: req.body.title,
     technologies: technologiesArray,
     project_image: req.body.project_image,
@@ -130,7 +132,7 @@ router.post("/add-bulk-projects", async (req, res) => {
       live_link: proj.live_link,
     }));
 
-    const savedProjects = await Projects.insertMany(projects);
+    const savedProjects = await projects.insertMany(projects);
     res.status(201).json({
       data: savedProjects,
       success: true,
@@ -145,7 +147,7 @@ router.post("/add-bulk-projects", async (req, res) => {
 
 router.put("/update-projects/:id", async (req, res) => {
   try {
-    const updateProject = await Projects.findByIdAndUpdate(
+    const updateProject = await projects.findByIdAndUpdate(
       req.params.id,
       {
         $set: req.body,
@@ -176,7 +178,7 @@ router.put("/update-projects/:id", async (req, res) => {
 
 router.delete("/delete-projects/:id", async (req, res) => {
   try {
-    const deleteProject = await Projects.findByIdAndDelete(req.params.id, {
+    const deleteProject = await projects.findByIdAndDelete(req.params.id, {
       runValidators: true,
     });
     if (!deleteProject) {
@@ -193,6 +195,32 @@ router.delete("/delete-projects/:id", async (req, res) => {
       message: error.message,
       success: false,
     });
+  }
+});
+
+// skill method
+router.post("/add-skill", async (req, res) => {
+  try {
+    const existingSkill = await skill.findOne({
+      iconName: req.body.iconName,
+    });
+    if (existingSkill) {
+      return res.status(400).json({
+        success: false,
+        message: "Skill already exists",
+      });
+    }
+    const newskills = new skill({
+      iconName: req.body.iconName,
+    });
+    await newskills.save();
+    res.status(201).json({
+      data: newskills,
+      success: true,
+      message: "skill added successfully",
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 
