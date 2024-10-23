@@ -1,5 +1,5 @@
 import express from "express";
-import { intro, experience, projects, skill } from "../models/portfolio.js";
+import { intro, experiences, projects, skills } from "../models/portfolio.js";
 
 const router = express.Router();
 
@@ -7,13 +7,13 @@ const router = express.Router();
 router.get("/get-data", async (req, res) => {
   try {
     const intros = await intro.find();
-    const experience = await experience.find();
-    const projects = await projects.find();
-    const skill = await skill.find();
+    const experience = await experiences.find();
+    const project = await projects.find();
+    const skill = await skills.find();
     res.status(200).send({
       intro: intros[0],
       experience: experience,
-      projects: projects,
+      project: project,
       skill: skill,
     });
   } catch (error) {
@@ -39,7 +39,7 @@ router.post("/add-intro", async (req, res) => {
 
 // experience method
 router.post("/add-experience", async (req, res) => {
-  const experience = new experience({
+  const experience = new experiences({
     company: req.body.company,
     location: req.body.location,
     position: req.body.position,
@@ -64,7 +64,7 @@ router.post("/add-experience", async (req, res) => {
 
 router.put("/update-experience/:id", async (req, res) => {
   try {
-    const updateExperience = await experience.findByIdAndUpdate(
+    const updateExperience = await experiences.findByIdAndUpdate(
       req.params.id,
       {
         $set: req.body,
@@ -201,7 +201,7 @@ router.delete("/delete-projects/:id", async (req, res) => {
 // skill method
 router.post("/add-skill", async (req, res) => {
   try {
-    const existingSkill = await skill.findOne({
+    const existingSkill = await skills.findOne({
       iconName: req.body.iconName,
     });
     if (existingSkill) {
