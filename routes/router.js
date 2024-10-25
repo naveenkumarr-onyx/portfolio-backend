@@ -198,6 +198,21 @@ router.delete("/delete-projects/:id", async (req, res) => {
   }
 });
 
+router.get("/get-project", async (req, res) => {
+  try {
+    const getProjects = await projects.find();
+    res.status(200).json({
+      data: getProjects,
+      success: true,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+      success: false,
+    });
+  }
+});
+
 // skill method
 router.post("/add-skill", async (req, res) => {
   try {
