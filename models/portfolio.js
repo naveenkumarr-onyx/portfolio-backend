@@ -72,7 +72,7 @@ const skillSchema = new mongoose.Schema({
 
 const intro = mongoose.model("intro", introSchema);
 const experiences = mongoose.model("experience", experienceSchema);
-const projects = mongoose.model("projects", projectsSchema);
+const projects = mongoose.model("project", projectsSchema);
 const skills = mongoose.model("skill", skillSchema);
 
 export { intro, experiences, projects, skills };
