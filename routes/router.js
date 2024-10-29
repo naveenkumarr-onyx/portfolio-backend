@@ -1,5 +1,5 @@
 import express from "express";
-import { intro, experiences, projects, skills } from "../models/portfolio.js";
+import { intro, experiences, projects } from "../models/portfolio.js";
 
 const router = express.Router();
 
@@ -9,12 +9,10 @@ router.get("/get-data", async (req, res) => {
     const intros = await intro.find();
     const experience = await experiences.find();
     const project = await projects.find();
-    const skill = await skills.find();
     res.status(200).send({
       intro: intros[0],
       experience: experience,
       project: project,
-      skill: skill,
     });
   } catch (error) {
     res.status(500).json({
@@ -210,32 +208,6 @@ router.get("/get-project", async (req, res) => {
       message: error.message,
       success: false,
     });
-  }
-});
-
-// skill method
-router.post("/add-skill", async (req, res) => {
-  try {
-    const existingSkill = await skills.findOne({
-      iconName: req.body.iconName,
-    });
-    if (existingSkill) {
-      return res.status(400).json({
-        success: false,
-        message: "Skill already exists",
-      });
-    }
-    const newskills = new skill({
-      iconName: req.body.iconName,
-    });
-    await newskills.save();
-    res.status(201).json({
-      data: newskills,
-      success: true,
-      message: "skill added successfully",
-    });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
   }
 });
 

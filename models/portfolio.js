@@ -63,16 +63,8 @@ const projectsSchema = new mongoose.Schema({
   },
 });
 
-const skillSchema = new mongoose.Schema({
-  iconName: {
-    type: String,
-    required: true,
-  },
-});
-
 const intro = mongoose.model("intro", introSchema);
 const experiences = mongoose.model("experience", experienceSchema);
 const projects = mongoose.model("project", projectsSchema);
-const skills = mongoose.model("skill", skillSchema);
 
-export { intro, experiences, projects, skills };
+export { intro, experiences, projects };
