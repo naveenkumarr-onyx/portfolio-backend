@@ -1,245 +1,35 @@
 import express from "express";
-import { intro, experiences, projects, ratings } from "../models/portfolio.js";
+import {
+  addBulkProjectsController,
+  addProjectController,
+  deleteProjectController,
+  getProjectController,
+  updateProjectController,
+} from "../controller/projectController.js";
+import {
+  addExperienceController,
+  updateExperienceController,
+} from "../controller/experienceController.js";
+import { addIntroController } from "../controller/introController.js";
+import { getAllControllerMethod } from "../controller/getAllcontroller.js";
+import { ratingsControllerMethod } from "../controller/ratingsController.js";
 
 const router = express.Router();
 
 // get-data method
-router.get("/get-data", async (req, res) => {
-  try {
-    const intros = await intro.find();
-    const experience = await experiences.find();
-    const project = await projects.find();
-    res.status(200).send({
-      intro: intros[0],
-      experience: experience,
-      project: project,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
-  }
-});
-
+router.get("/get-data", getAllControllerMethod);
 // intro method
-router.post("/add-intro", async (req, res) => {
-  const intro = new intro({
-    name: req.body.name,
-    role: req.body.role,
-  });
-  try {
-    await intro.save();
-    res.status(201).json(intro);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
+router.post("/add-intro", addIntroController);
 // experience method
-router.post("/add-experience", async (req, res) => {
-  const experience = new experiences({
-    company: req.body.company,
-    location: req.body.location,
-    position: req.body.position,
-    period: req.body.period,
-    mode: req.body.mode,
-    active: req.body.active || false,
-    description: req.body.description || null,
-  });
-  try {
-    await experience.save();
-    res.status(201).json({
-      data: experience,
-      success: true,
-      message: "experience updated successfully",
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
-  }
-});
-
-router.put("/update-experience/:id", async (req, res) => {
-  try {
-    const updateExperience = await experiences.findByIdAndUpdate(
-      req.params.id,
-      {
-        $set: req.body,
-      },
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
-    if (!updateExperience) {
-      return res
-        .status(404)
-        .json({ message: "Experience not found", success: false });
-    }
-    res.status(200).json({
-      data: updateExperience,
-      success: true,
-      message: "experience updated successfully",
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: error.message,
-      success: false,
-    });
-  }
-});
-
+router.post("/add-experience", addExperienceController);
+router.put("/update-experience/:id", updateExperienceController);
 // project method
-router.post("/add-project", async (req, res) => {
-  const technologiesArray = Array.isArray(req.body.technologies)
-    ? req.body.technologies
-    : req.body.technologies.split(",").map((tech) => tech.trim());
-
-  const pro = new projects({
-    title: req.body.title,
-    technologies: technologiesArray,
-    project_image: req.body.project_image,
-    github_link: req.body.github_link,
-    live_link: req.body.live_link,
-  });
-
-  try {
-    await pro.save();
-    res.status(201).json({
-      data: pro,
-      success: true,
-      message: "Projects added successfully",
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
-  }
-});
-
-router.post("/add-bulk-projects", async (req, res) => {
-  try {
-    const projects = req.body.projects.map((proj) => ({
-      title: proj.title,
-      technologies: Array.isArray(proj.technologies)
-        ? proj.technologies
-        : proj.technologies.split(",").map((tech) => tech.trim()), // Ensure technologies are stored as an array
-      project_image: proj.project_image,
-      github_link: proj.github_link,
-      live_link: proj.live_link,
-    }));
-
-    const savedProjects = await projects.insertMany(projects);
-    res.status(201).json({
-      data: savedProjects,
-      success: true,
-      message: "Projects added successfully",
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
-  }
-});
-
-router.put("/update-projects/:id", async (req, res) => {
-  try {
-    const updateProject = await projects.findByIdAndUpdate(
-      req.params.id,
-      {
-        $set: req.body,
-      },
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
-    if (!updateProject) {
-      return res.status(404).json({
-        success: false,
-        message: "Project not found",
-      });
-    }
-    res.status(200).json({
-      data: updateProject,
-      success: true,
-      message: "Project updated successfully",
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: error.message,
-      success: false,
-    });
-  }
-});
-
-router.delete("/delete-projects/:id", async (req, res) => {
-  try {
-    const deleteProject = await projects.findByIdAndDelete(req.params.id, {
-      runValidators: true,
-    });
-    if (!deleteProject) {
-      return res.status(404).json({
-        success: false,
-        message: "Project not found",
-      });
-    }
-    res.status(200).json({
-      message: "project delete Sucessfully",
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: error.message,
-      success: false,
-    });
-  }
-});
-
-router.get("/get-project", async (req, res) => {
-  try {
-    const getProjects = await projects.find();
-    res.status(200).json({
-      data: getProjects,
-      success: true,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: error.message,
-      success: false,
-    });
-  }
-});
-
-router.post("/post-rating", async (req, res) => {
-  const { email, rating } = req.body;
-  try {
-    const existingRating = await ratings.findOne({ email });
-    if (existingRating) {
-      return res.status(400).json({
-        message: "Rating alreaady exists for this user",
-        success: false,
-      });
-    }
-
-    const newrating = new ratings({
-      email: email,
-      rating: [
-        {
-          score: rating,
-        },
-      ],
-    });
-    await newrating.save();
-    return res.status(200).json({
-      message: "Rating submitted successfully",
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: error.message,
-      success: false,
-    });
-  }
-});
+router.post("/add-project", addProjectController);
+router.post("/add-bulk-projects", addBulkProjectsController);
+router.put("/update-projects/:id", updateProjectController);
+router.delete("/delete-projects/:id", deleteProjectController);
+router.get("/get-project", getProjectController);
+// Rating method
+router.post("/post-rating", ratingsControllerMethod);
 
 export default router;
