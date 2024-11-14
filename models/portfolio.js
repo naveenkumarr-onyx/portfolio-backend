@@ -63,8 +63,29 @@ const projectsSchema = new mongoose.Schema({
   },
 });
 
+const ratingSchema = new mongoose.Schema({
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  rating: [
+    {
+      score: {
+        type: Number,
+        required: true,
+      },
+      date: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
+});
+
 const intro = mongoose.model("intro", introSchema);
 const experiences = mongoose.model("experience", experienceSchema);
 const projects = mongoose.model("project", projectsSchema);
+const ratings = mongoose.model("rating", ratingSchema);
 
-export { intro, experiences, projects };
+export { intro, experiences, projects, ratings };

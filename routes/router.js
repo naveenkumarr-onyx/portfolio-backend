@@ -1,5 +1,5 @@
 import express from "express";
-import { intro, experiences, projects } from "../models/portfolio.js";
+import { intro, experiences, projects, ratings } from "../models/portfolio.js";
 
 const router = express.Router();
 
@@ -202,6 +202,37 @@ router.get("/get-project", async (req, res) => {
     res.status(200).json({
       data: getProjects,
       success: true,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+      success: false,
+    });
+  }
+});
+
+router.post("/post-rating", async (req, res) => {
+  const { email, rating } = req.body;
+  try {
+    const existingRating = await ratings.findOne({ email });
+    if (existingRating) {
+      return res.status(400).json({
+        message: "Rating alreaady exists for this user",
+        success: false,
+      });
+    }
+
+    const newrating = new ratings({
+      email: email,
+      rating: [
+        {
+          score: rating,
+        },
+      ],
+    });
+    await newrating.save();
+    return res.status(200).json({
+      message: "Rating submitted successfully",
     });
   } catch (error) {
     res.status(500).json({
