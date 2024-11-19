@@ -1,12 +1,12 @@
 import { ratings } from "../models/portfolio.js";
 
 export const ratingsControllerMethod = async (req, res) => {
-  const { email, rating } = req.body;
+  const { email, rating, feedback } = req.body;
   try {
     const existingRating = await ratings.findOne({ email });
     if (existingRating) {
       return res.status(400).json({
-        message: "Rating alreaady exists for this user",
+        message: "Rating already exists for this user",
         success: false,
       });
     }
@@ -18,6 +18,7 @@ export const ratingsControllerMethod = async (req, res) => {
           score: rating,
         },
       ],
+      feedback: feedback,
     });
     await newrating.save();
     return res.status(200).json({

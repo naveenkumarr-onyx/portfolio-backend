@@ -81,6 +81,9 @@ const ratingSchema = new mongoose.Schema({
       },
     },
   ],
+  feeback: {
+    type: String,
+  },
 });
 
 const intro = mongoose.model("intro", introSchema);
