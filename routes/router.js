@@ -6,6 +6,8 @@ import {
   getProjectController,
   updateProjectController,
 } from "../controller/projectController.js";
+
+import adminAuthController from "../controller/adminAuthController.js";
 import {
   addExperienceController,
   updateExperienceController,
@@ -31,5 +33,6 @@ router.delete("/delete-projects/:id", deleteProjectController);
 router.get("/get-project", getProjectController);
 // Rating method
 router.post("/post-rating", ratingsControllerMethod);
+router.post("/admin-auth", adminAuthController);
 
 export default router;
