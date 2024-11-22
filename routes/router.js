@@ -7,7 +7,6 @@ import {
   updateProjectController,
 } from "../controller/projectController.js";
 
-import adminAuthController from "../controller/adminAuthController.js";
 import {
   addExperienceController,
   updateExperienceController,
@@ -15,6 +14,10 @@ import {
 import { addIntroController } from "../controller/introController.js";
 import { getAllControllerMethod } from "../controller/getAllcontroller.js";
 import { ratingsControllerMethod } from "../controller/ratingsController.js";
+import {
+  adminCreateController,
+  adminLoginController,
+} from "../controller/adminAuthController.js";
 
 const router = express.Router();
 
@@ -33,6 +36,7 @@ router.delete("/delete-projects/:id", deleteProjectController);
 router.get("/get-project", getProjectController);
 // Rating method
 router.post("/post-rating", ratingsControllerMethod);
-router.post("/admin-auth", adminAuthController);
+router.get("/admin-auth/login", adminLoginController);
+router.post("/admin-auth/register", adminCreateController);
 
 export default router;
