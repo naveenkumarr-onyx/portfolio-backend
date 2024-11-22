@@ -5,7 +5,7 @@ export const adminLoginController = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Check if the admin exists
+    // Check if admin exists
     const admin = await Admin.findOne({ email });
     if (!admin) {
       return res.status(404).json({
@@ -14,12 +14,13 @@ export const adminLoginController = async (req, res) => {
       });
     }
 
-    // Hash the input password with CryptoJS
+    // Hash the input password to compare with the stored hash
     const hashedPassword = CryptoJS.SHA256(password).toString();
-    // Compare the hashed password
+
+    // Compare the hashed input password with the stored hashed password
     if (hashedPassword !== admin.password) {
       return res.status(401).json({
-        message: "Invalid Crendentials",
+        message: "Invalid email or password",
         success: false,
       });
     }
@@ -30,7 +31,7 @@ export const adminLoginController = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    console.error("Error during login:", error); // Log for debugging
+    console.error("Error during login:", error); // Debugging purposes
     res.status(500).json({
       message: "Error during login",
       success: false,
