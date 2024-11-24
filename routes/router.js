@@ -36,6 +36,7 @@ router.delete("/delete-projects/:id", deleteProjectController);
 router.get("/get-project", getProjectController);
 // Rating method
 router.post("/post-rating", ratingsControllerMethod);
+//admin-login
 router.get("/admin-auth/login", adminLoginController);
 router.post("/admin-auth/register", adminCreateController);
 
