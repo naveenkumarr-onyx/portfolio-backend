@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { type } from "os";
 
 const introSchema = new mongoose.Schema({
   name: {
@@ -64,6 +65,9 @@ const projectsSchema = new mongoose.Schema({
 });
 
 const ratingSchema = new mongoose.Schema({
+  name: {
+    type: String,
+  },
   email: {
     type: String,
     required: true,
