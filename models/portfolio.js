@@ -64,6 +64,17 @@ const projectsSchema = new mongoose.Schema({
   },
 });
 
+const skillsSchema = new mongoose.Schema({
+  iconName: {
+    type: String,
+    required: true,
+  },
+  iconType: {
+    type: String,
+    required: true,
+  },
+});
+
 const ratingSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -94,5 +105,6 @@ const intro = mongoose.model("intro", introSchema);
 const experiences = mongoose.model("experience", experienceSchema);
 const projects = mongoose.model("project", projectsSchema);
 const ratings = mongoose.model("rating", ratingSchema);
+const skills = mongoose.model("skill", skillsSchema);
 
-export { intro, experiences, projects, ratings };
+export { intro, experiences, projects, ratings, skills };

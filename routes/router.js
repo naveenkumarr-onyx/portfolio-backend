@@ -18,6 +18,7 @@ import {
   adminCreateController,
   adminLoginController,
 } from "../controller/adminAuthController.js";
+import { addSkillsController } from "../controller/addSkillsController.js";
 
 const router = express.Router();
 
@@ -25,6 +26,9 @@ const router = express.Router();
 router.get("/get-data", getAllControllerMethod);
 // intro method
 router.post("/add-intro", addIntroController);
+// skills method
+
+router.post("/add-skill", addSkillsController);
 // experience method
 router.post("/add-experience", addExperienceController);
 router.put("/update-experience/:id", updateExperienceController);
