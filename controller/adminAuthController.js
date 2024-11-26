@@ -27,6 +27,7 @@ export const adminLoginController = async (req, res) => {
 
     // Successful login
     return res.status(200).json({
+      data: admin,
       message: "Login successful",
       success: true,
     });
