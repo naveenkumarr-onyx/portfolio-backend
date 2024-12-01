@@ -16,7 +16,6 @@ import { getAllControllerMethod } from "../controller/getAllcontroller.js";
 import { ratingsControllerMethod } from "../controller/ratingsController.js";
 import {
   adminCreateController,
-  adminGetController,
   adminLoginController,
 } from "../controller/adminAuthController.js";
 import { addSkillsController } from "../controller/addSkillsController.js";
@@ -48,6 +47,6 @@ router.post("/post-rating", ratingsControllerMethod);
 //admin-login
 router.post("/admin-auth/login", adminLoginController);
 router.post("/admin-auth/register", adminCreateController);
-router.get("/admin-auth/get", adminGetController);
+// router.get("/admin-auth/get", adminGetController);
 
 export default router;

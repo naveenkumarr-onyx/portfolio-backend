@@ -62,19 +62,19 @@ export const adminCreateController = async (req, res) => {
   }
 };
 
-export const adminGetController = async (req, res) => {
-  try {
-    const admin = await Admin.find();
-    return res.status(200).json({
-      data: admin,
-      success: true,
-      message: "admin fetched successfully",
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      success: false,
-      message: "Error fetching admin",
-    });
-  }
-};
+// export const adminGetController = async (req, res) => {
+//   try {
+//     const admin = await Admin.find();
+//     return res.status(200).json({
+//       data: admin,
+//       success: true,
+//       message: "admin fetched successfully",
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({
+//       success: false,
+//       message: "Error fetching admin",
+//     });
+//   }
+// };
