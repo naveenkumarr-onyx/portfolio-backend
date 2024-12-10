@@ -47,6 +47,5 @@ router.post("/post-rating", ratingsControllerMethod);
 //admin-login
 router.post("/admin-auth/login", adminLoginController);
 router.post("/admin-auth/register", adminCreateController);
-// router.get("/admin-auth/get", adminGetController);
 
 export default router;
