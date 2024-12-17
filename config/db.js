@@ -11,7 +11,7 @@ export const connectDB = () => {
 
   // Handle the "connected" event
   dbConnection.on("connected", () => {
-    console.log("mongodb connected successfully");
+    console.log("mongodb has been established successfully");
   });
 
   // Handle the "disconnected" event
