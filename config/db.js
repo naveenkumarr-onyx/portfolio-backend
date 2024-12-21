@@ -10,7 +10,7 @@ export const connectDB = () => {
 
   mongoose
     .connect(dbUrl)
-    .then(() => console.log(`MongoDB connection established successfully ${dbUrl}`))
+    .then(() => console.log(`MongoDB connection established successfully`))
     .catch((error) => {
       console.error(`MongoDB connection error: ${error.message}`);
       process.exit(1); // Exit with failure
