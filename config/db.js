@@ -1,26 +1,18 @@
 import mongoose from "mongoose";
 
-const dbUrl = process.env.MONGO_URI;
-
 export const connectDB = () => {
-  // Connect to MongoDB
-  mongoose.connect(dbUrl);
+  const dbUrl = process.env.MONGO_URI;
 
-  // Get the connection instance
-  const dbConnection = mongoose.connection;
+  if (!dbUrl) {
+    console.error("MongoDB URI is undefined. Check your .env file.");
+    process.exit(1); // Exit with failure
+  }
 
-  // Handle the "connected" event
-  dbConnection.on("connected", () => {
-    console.log("mongodb has been established successfully");
-  });
-
-  // Handle the "disconnected" event
-  dbConnection.on("disconnected", () => {
-    console.log("MongoDB disconnected");
-  });
-
-  // Handle the "error" event
-  dbConnection.on("error", (err) => {
-    console.error(`MongoDB connection error: ${err}`);
-  });
+  mongoose
+    .connect(dbUrl)
+    .then(() => console.log("MongoDB connection established successfully"))
+    .catch((error) => {
+      console.error(`MongoDB connection error: ${error.message}`);
+      process.exit(1); // Exit with failure
+    });
 };

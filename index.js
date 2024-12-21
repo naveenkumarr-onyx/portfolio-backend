@@ -1,11 +1,10 @@
 import express from "express";
 import cors from "cors";
-import "dotenv/config";
+import  "dotenv/config";
 import router from "./routes/router.js";
 import { connectDB } from "./config/db.js";
 
 const app = express();
-
 app.use(
   cors({
     origin: "*", // Allow all origins for development purposes
