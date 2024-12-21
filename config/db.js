@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const dbUrl = process.env.MONGODB_URL;
+const dbUrl = process.env.MONGO_URI;
 
 export const connectDB = () => {
   // Connect to MongoDB
