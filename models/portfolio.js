@@ -95,7 +95,7 @@ const ratingSchema = new mongoose.Schema({
       },
     },
   ],
-  feeback: {
+  feedback: {
     type: String,
   },
 });
