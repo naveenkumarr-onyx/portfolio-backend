@@ -7,7 +7,7 @@ import { connectDB } from "./config/db.js";
 const app = express();
 app.use(
   cors({
-    origin: "https://portfolio-nextjs-self-two.vercel.app/", // Allow all origins for development purposes
+    origin: "*", // Allow all origins for development purposes
     methods: ["GET", "POST", "PUT", "DELETE"], // Specify allowed HTTP methods
     allowedHeaders: ["Content-Type", "Authorization"], // Specify allowed headers
   })
